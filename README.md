@@ -45,3 +45,7 @@ bun init
 
 5. inside of the backend index.tx you can db import like this 
 import { prismaClient } from "db/client";   ==>client this already told in the package.json in the export in the packages/db then package.json   whatever you give the name that name should be like that   and db is the package name so that is why
+
+
+<==========================================================end of the initialized===========================>
+Now we will do the Docker things
