@@ -1,84 +1,47 @@
-# Turborepo starter
+1. npm install -g bun   install bun using npm
+2. npx create-turbo@latest
+3. cd packages
+mkdir db
+cd db
+bun init 
+bun install prisma
+bunx prisma init
 
-This Turborepo starter is maintained by the Turborepo core team.
 
-## Using this example
+4. 
+model User {
+  id              String      @id    @default(uuid())
+  username        String
+  password        String
+} 
+5. start db using docker locally using this ==> DATABASE_URL="postgresql://postgres:mysecretpassword@localhost:5432/postgres
+6. update .env
+DATABASE_URL="postgresql://postgres:mysecretpassword@localhost:5432/postgres
 
-Run the following command:
+7. bunx prisma migrate dev  for the migrate dev  migrate we will not put ci/cd pipeline we will do manually 
+8. bunx prisma generate   for the generate   // it can be use in cicd pipeline
 
-```sh
-npx create-turbo@latest
-```
+9. import { PrismaClient } from "@prisma/client";
 
-## What's inside?
+export const prismaClient; put in index.ts
 
-This Turborepo includes the following packages/apps:
+10. update in package.json  inside of  the packages/db "exports": {
+	"./client": "./index.ts"
+}
 
-### Apps and Packages
 
-- `docs`: a [Next.js](https://nextjs.org/) app
-- `web`: another [Next.js](https://nextjs.org/) app
-- `@repo/ui`: a stub React component library shared by both `web` and `docs` applications
-- `@repo/eslint-config`: `eslint` configurations (includes `eslint-config-next` and `eslint-config-prettier`)
-- `@repo/typescript-config`: `tsconfig.json`s used throughout the monorepo
+<=====================================Now  we will create backend where we will use the db things===============>
+1. cd apps
+mkdir backend
+cd backend
+bun init
 
-Each package/app is 100% [TypeScript](https://www.typescriptlang.org/).
+2. bun install express @types/express
+3. update in the package.json "dependencies": {
+	"db": "*"
+} inside in the backend  package.json
 
-### Utilities
+4. bun install     do this globally in root folder which is turbo folder
 
-This Turborepo has some additional tools already setup for you:
-
-- [TypeScript](https://www.typescriptlang.org/) for static type checking
-- [ESLint](https://eslint.org/) for code linting
-- [Prettier](https://prettier.io) for code formatting
-
-### Build
-
-To build all apps and packages, run the following command:
-
-```
-cd my-turborepo
-pnpm build
-```
-
-### Develop
-
-To develop all apps and packages, run the following command:
-
-```
-cd my-turborepo
-pnpm dev
-```
-
-### Remote Caching
-
-> [!TIP]
-> Vercel Remote Cache is free for all plans. Get started today at [vercel.com](https://vercel.com/signup?/signup?utm_source=remote-cache-sdk&utm_campaign=free_remote_cache).
-
-Turborepo can use a technique known as [Remote Caching](https://turborepo.com/docs/core-concepts/remote-caching) to share cache artifacts across machines, enabling you to share build caches with your team and CI/CD pipelines.
-
-By default, Turborepo will cache locally. To enable Remote Caching you will need an account with Vercel. If you don't have an account you can [create one](https://vercel.com/signup?utm_source=turborepo-examples), then enter the following commands:
-
-```
-cd my-turborepo
-npx turbo login
-```
-
-This will authenticate the Turborepo CLI with your [Vercel account](https://vercel.com/docs/concepts/personal-accounts/overview).
-
-Next, you can link your Turborepo to your Remote Cache by running the following command from the root of your Turborepo:
-
-```
-npx turbo link
-```
-
-## Useful Links
-
-Learn more about the power of Turborepo:
-
-- [Tasks](https://turborepo.com/docs/crafting-your-repository/running-tasks)
-- [Caching](https://turborepo.com/docs/crafting-your-repository/caching)
-- [Remote Caching](https://turborepo.com/docs/core-concepts/remote-caching)
-- [Filtering](https://turborepo.com/docs/crafting-your-repository/running-tasks#using-filters)
-- [Configuration Options](https://turborepo.com/docs/reference/configuration)
-- [CLI Usage](https://turborepo.com/docs/reference/command-line-reference)
+5. inside of the backend index.tx you can db import like this 
+import { prismaClient } from "db/client";   ==>client this already told in the package.json in the export in the packages/db then package.json   whatever you give the name that name should be like that   and db is the package name so that is why
